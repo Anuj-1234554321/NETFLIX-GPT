@@ -1,15 +1,14 @@
 import React, { useState, useRef } from "react";
 import Header from "./Header";
-import { NETFLIX_BG_LOGO } from "../Utils/constant";
+import { NETFLIX_BG_LOGO, SIGN_OUT_LOGO } from "../Utils/constant";
 import { checkValidateData } from '../Utils/Validate';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../Utils/Firebase";
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [isSignForm, setIsSignForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState(null);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const email = useRef(null);
     const password = useRef(null);
     const fullName = useRef(null);
@@ -25,13 +24,13 @@ const Login = () => {
                 const user = userCredential.user;
                 await updateProfile(user, {
                     displayName: fullName.current.value,
-                    photoURL: "https://image.shutterstock.com/image-vector/user-approved-icon-260nw-1038327685.jpg"
+                    photoURL: SIGN_OUT_LOGO
                 });
-                navigate('/browse');
+                // navigate('/browse');
             } else {
                 const userCredential = await signInWithEmailAndPassword(auth, email.current.value, password.current.value);
                 const user = userCredential.user;
-                navigate('/browse');
+                  
             }
         } catch (error) {
             setErrorMessage(error.message);
@@ -46,7 +45,7 @@ const Login = () => {
         <div>
             <div className="absolute w-full h-full">
                 <Header />
-                <img className="w-full h-full object-cover" src={NETFLIX_BG_LOGO} alt="bg-logo" />
+                <img className="w-full h-full object-cover absolute" src={NETFLIX_BG_LOGO} alt="bg-logo" />
             </div>
             <form
                 onSubmit={(e) => e.preventDefault()}
